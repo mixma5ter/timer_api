@@ -6,30 +6,32 @@
     <link rel="stylesheet" href="../static/style.css">
 </head>
 <body>
+    <div id="timer">00:00</div>
+    <br><br>
 
-<span id="clock">00:00</span><br><br>
+    <button onclick="sendAction('start')" id="startButton">Forward</button>
+    <button onclick="sendAction('reverse')" id="reverseButton">Backward</button>
+    <button onclick="sendAction('pause')">Pause</button>
+    <br><br>
 
-<button id="startButton" class="action">START</button>
-<button id="pauseButton" class="action">PAUSE</button>
-<label class="custom-checkbox checkbox-button">
-    <input type="checkbox" id="reverseCheckbox" class="custom-checkbox-input"/>
-    <span class="custom-checkbox-label">REV</span>
-</label><br><br>
+    <input type="number" id="minutes" value="0" min="0" max="60">
+    <input type="number" id="seconds" value="0" min="0" max="60">
+    <button onclick="resetWithValues()">Reset</button>
+    <br><br>
 
-<button id="add30sButton" class="action">+30s</button>
-<button id="subtract30sButton" class="action">-30s</button>
-<br>
-<button id="add1mButton" class="action">+1m</button>
-<button id="subtract1mButton" class="action">-1m</button>
-<br>
-<button id="add5mButton" class="action">+5m</button>
-<button id="subtract5mButton" class="action">-5m</button>
-<br><br>
+    <button onclick="modifyTime('add', 30)">+30s </button>
+    <button onclick="modifyTime('subtract', 30)">-30s </button>
+    <br><br>
 
-<input type="number" id="minutesBox" class="time-input" value="0" min="0">
-<input type="number" id="secondsBox" class="time-input" value="0" min="0" max="59">
-<button id="resetButton" class="action">SET</button>
+    <button onclick="modifyTime('add', 60)">+1m </button>
+    <button onclick="modifyTime('subtract', 60)">-1m </button>
+    <br><br>
 
-<script src="../static/script.js"></script>
+    <button onclick="modifyTime('add', 300)">+5m </button>
+    <button onclick="modifyTime('subtract', 300)">-5m </button>
+    <br><br>
+
+    <script src="../static/script.js"></script>
+
 </body>
 </html>
