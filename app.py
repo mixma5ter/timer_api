@@ -1,11 +1,128 @@
-from flask import Flask, jsonify, request, render_template
+from flask import Flask, request, jsonify, render_template
+import time
+import threading
 
-app = Flask(__name__, static_url_path='/static')
+app = Flask(__name__)
+
+timer_state = {
+    'minutes': 0,
+    'seconds': 0,
+    'initial_time': 0,  # Начальное значение (в секундах)
+    'is_running': False,
+    'start_time': None,
+    'is_reversed': False
+}
+
+timer_lock = threading.RLock()
+timer_thread = None
 
 
-@app.route('/')
+def update_timer():
+    with timer_lock:
+        if timer_state['is_running']:
+            elapsed_time = time.time() - timer_state['start_time']
+            current_time_seconds = timer_state['initial_time']
+
+            if timer_state['is_reversed']:
+                current_time_seconds -= elapsed_time
+            else:
+                current_time_seconds += elapsed_time
+
+            timer_state['minutes'] = max(0, int(current_time_seconds // 60))
+            timer_state['seconds'] = max(0, int(current_time_seconds % 60))
+
+            if timer_state['is_reversed'] and current_time_seconds <= 0:
+                timer_state['minutes'] = 0
+                timer_state['seconds'] = 0
+                timer_state['is_running'] = False
+                timer_state['start_time'] = None
+                timer_state['initial_time'] = 0
+
+
+@app.route('/', methods=['GET'])
 def index():
     return render_template('index.html')
+
+
+@app.route('/timer', methods=['GET', 'POST'])
+def timer_api():
+    global timer_state
+    with timer_lock:
+        if request.method == 'POST':
+            action = request.args.get('action')
+
+            if action == 'reset':
+                minutes = int(request.args.get('minutes', 0))
+                seconds = int(request.args.get('seconds', 0))
+                timer_state.update({
+                    'minutes': minutes,
+                    'seconds': seconds,
+                    'initial_time': minutes * 60 + seconds,
+                    'is_running': False,
+                    'start_time': None,
+                    'is_reversed': False  # Сбрасываем is_reversed при reset
+                })
+
+            elif action == 'start':
+                if not timer_state['is_running']:
+                    timer_state['is_reversed'] = False
+                    start_timer()
+
+            elif action == 'reverse':
+                if not timer_state['is_running']:
+                    timer_state['is_reversed'] = True
+                    start_timer()
+
+            elif action == 'pause':
+                timer_state['is_running'] = False
+                timer_state['start_time'] = None
+
+            elif action.startswith(('add', 'subtract')):
+                if not timer_state['is_running']:
+                    value = int(action[3:]) if action.startswith('add') else -int(action[8:])
+                    current_seconds = timer_state['minutes'] * 60 + timer_state['seconds']
+                    new_seconds = max(0, current_seconds + value)  # Обеспечиваем неотрицательное значение
+                    timer_state['minutes'] = int(new_seconds // 60)
+                    timer_state['seconds'] = int(new_seconds % 60)
+                    timer_state['initial_time'] = new_seconds  # Обновляем initial_time
+
+        formatted_time = "{:02d}:{:02d}".format(timer_state['minutes'], timer_state['seconds'])
+        return jsonify({'time': formatted_time})
+
+
+def start_timer():
+    global timer_thread
+
+    if not timer_state['is_running']:
+        if timer_state['start_time'] is not None:  # Таймер был запущен ранее
+            elapsed_time = time.time() - timer_state['start_time']
+            current_seconds = timer_state['initial_time']
+
+            if timer_state['is_reversed']:
+                current_seconds += elapsed_time  # Добавляем прошедшее время для обратного отсчета
+            else:
+                current_seconds -= elapsed_time  # Вычитаем прошедшее время для прямого отсчета
+            timer_state['initial_time'] = max(0, current_seconds)  # Не меньше 0
+
+        else:
+            timer_state['initial_time'] = timer_state['minutes'] * 60 + timer_state['seconds']
+
+        timer_state['start_time'] = time.time()
+        timer_state['is_running'] = True
+
+        if timer_thread is None or not timer_thread.is_alive():
+            timer_thread = threading.Thread(target=update_timer_loop)
+            timer_thread.daemon = True
+            timer_thread.start()
+
+
+def update_timer_loop():
+    while True:
+        with timer_lock:
+            if not timer_state['is_running']:
+                break  # Выходим из цикла, если таймер остановлен
+        update_timer()
+        time.sleep(0.1)
 
 
 if __name__ == '__main__':
