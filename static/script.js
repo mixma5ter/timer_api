@@ -1,5 +1,5 @@
 function sendAction(action) {
-    fetch('/timer?action=' + action, { method: 'POST' })
+    fetch('/timer/api?action=' + action, { method: 'POST' })
         .then(response => response.json())
         .then(data => {
             document.getElementById('timer').textContent = data.time;
@@ -14,7 +14,7 @@ function resetWithValues() {
     minutes = Math.min(Math.max(0, minutes), 60);
     seconds = Math.min(Math.max(0, seconds), 60);
 
-    fetch(`/timer?action=reset&minutes=${minutes}&seconds=${seconds}`, {method: 'POST'})
+    fetch(`/timer/api?action=reset&minutes=${minutes}&seconds=${seconds}`, {method: 'POST'})
         .then(response => response.json())
         .then(data => {
             document.getElementById('timer').textContent = data.time;
@@ -22,7 +22,7 @@ function resetWithValues() {
 }
 
 function modifyTime(operation, value) {
-    fetch(`/timer?action=${operation}${value}`, { method: 'POST' })
+    fetch(`/timer/api?action=${operation}${value}`, { method: 'POST' })
         .then(response => response.json())
         .then(data => {
             document.getElementById('timer').textContent = data.time;
@@ -30,7 +30,7 @@ function modifyTime(operation, value) {
 }
 
 setInterval(() => {
-    fetch('/timer')
+    fetch('/timer/api')
         .then(response => response.json())
         .then(data => {
             document.getElementById('timer').textContent = data.time;

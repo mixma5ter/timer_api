@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Timer</title>
+    <link rel="stylesheet" href="../static/style.css">
+</head>
+<body>
+    <a href="/">Home</a>
+    <br><br>
+
+    <div id="timer">00:00</div>
+    <br><br>
+
+    <button onclick="sendAction('start')" id="startButton">Forward</button>
+    <button onclick="sendAction('reverse')" id="reverseButton">Backward</button>
+    <button onclick="sendAction('pause')">Pause</button>
+    <br><br>
+
+    <input type="number" id="minutes" value="0" min="0" max="60">
+    <input type="number" id="seconds" value="0" min="0" max="60">
+    <button onclick="resetWithValues()">Reset</button>
+    <br><br>
+
+    <button onclick="modifyTime('add', 30)">+30s </button>
+    <button onclick="modifyTime('subtract', 30)">-30s </button>
+    <br><br>
+
+    <button onclick="modifyTime('add', 60)">+1m </button>
+    <button onclick="modifyTime('subtract', 60)">-1m </button>
+    <br><br>
+
+    <button onclick="modifyTime('add', 300)">+5m </button>
+    <button onclick="modifyTime('subtract', 300)">-5m </button>
+    <br><br>
+
+    <script src="../static/script.js"></script>
+
+</body>
+</html>

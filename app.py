@@ -45,7 +45,12 @@ def index():
     return render_template('index.html')
 
 
-@app.route('/timer', methods=['GET', 'POST'])
+@app.route('/timer', methods=['GET'])
+def timer():
+    return render_template('timer.html')
+
+
+@app.route('/timer/api', methods=['GET', 'POST'])
 def timer_api():
     global timer_state
     with timer_lock:
