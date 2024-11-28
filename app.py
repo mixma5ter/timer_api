@@ -3,7 +3,7 @@ import time
 
 from flask import Flask, request, jsonify, render_template
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static')
 
 timer_state = {
     'minutes': 0,
