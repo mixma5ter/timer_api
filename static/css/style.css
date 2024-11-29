@@ -54,3 +54,24 @@ a {
 a:hover {
     color: #a52424;
 }
+
+.section {
+    margin-bottom: 20px;
+}
+
+.endpoint code {
+    padding-left: 10px;
+    color: #007bff;
+}
+
+.parameter {
+    margin-bottom: 5px;
+}
+
+.parameter code {
+    color: #009688;
+}
+
+.important {
+    color: #dc3545;
+}

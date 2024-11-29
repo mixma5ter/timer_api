@@ -6,35 +6,44 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
+<div class="section">
     <a href="/">Home</a>
-    <br><br>
+</div>
 
+<div class="section">
     <div id="timer">00:00</div>
-    <br><br>
+</div>
 
+<div class="section">
     <button onclick="sendAction('start')" id="startButton">Forward</button>
     <button onclick="sendAction('reverse')" id="reverseButton">Backward</button>
     <button onclick="sendAction('pause')">Pause</button>
-    <br><br>
+</div>
 
+<div class="section">
     <input type="number" id="minutes" value="0" min="0" max="60">
     <input type="number" id="seconds" value="0" min="0" max="60">
     <button onclick="resetWithValues()">Reset</button>
-    <br><br>
+</div>
 
-    <button onclick="modifyTime('add', 30)">+30s </button>
-    <button onclick="modifyTime('subtract', 30)">-30s </button>
-    <br><br>
+<div class="section">
+    <button onclick="modifyTime('add', 30)">+30s</button>
+    <button onclick="modifyTime('subtract', 30)">-30s</button>
+</div>
 
-    <button onclick="modifyTime('add', 60)">+1m </button>
-    <button onclick="modifyTime('subtract', 60)">-1m </button>
-    <br><br>
+<div class="section">
+    <button onclick="modifyTime('add', 60)">+1m</button>
+    <button onclick="modifyTime('subtract', 60)">-1m</button>
+</div>
 
-    <button onclick="modifyTime('add', 300)">+5m </button>
-    <button onclick="modifyTime('subtract', 300)">-5m </button>
-    <br><br>
+<div class="section">
+    <button onclick="modifyTime('add', 300)">+5m</button>
+    <button onclick="modifyTime('subtract', 300)">-5m</button>
+</div>
 
-    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+<a href="/timer_api_help" target="_blank">API Documentation</a>
+
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
 
 </body>
 </html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Timer API Documentation</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<h1>Timer API</h1>
+
+<div class="section">
+    <h2>GET /timer/api</h2>
+    <p>Получает текущее состояние таймера. <span class="important">Этот запрос не меняет состояние таймера.</span></p>
+    <h3>Response:</h3>
+    <pre><code>{
+  "time": "MM:SS" // Текущее время в формате MM:SS
+}
+  </code></pre>
+</div>
+
+<div class="section">
+    <h2>POST /timer/api</h2>
+    <p>Управляет таймером. Используйте параметры в query string. <span class="important"> Команды add и subtract работают только если таймер остановлен.</span>
+    </p>
+    <h3>Параметры:</h3>
+    <div class="parameter">
+        <code>action</code>: (обязательный) <code>start</code>, <code>reverse</code>, <code>pause</code>,
+        <code>reset</code>, <code>add30</code>, <code>subtract30</code>, <code>add60</code>, <code>subtract60</code>
+    </div>
+    <div class="parameter">
+        <code>minutes</code>: (для <code>reset</code>) Целое число от 0 до 60.
+    </div>
+    <div class="parameter">
+        <code>seconds</code>: (для <code>reset</code>) Целое число от 0 до 60.
+    </div>
+    <div class="parameter">
+        <code>addXX</code>: Количество секунд для добавления (add10, add300 и т.д.).
+    </div>
+    <div class="parameter">
+        <code>subtractXX</code>: Количество секунд для вычитания (subtract10, subtract300 и т.д.).
+    </div>
+    <h3>Примеры:</h3>
+    <div class="endpoint">
+        <h3><code>POST /timer/api?action=start</code></h3>
+        <p>Запуск таймера.</p>
+    </div>
+    <div class="endpoint">
+        <h3><code>POST /timer/api?action=pause</code></h3>
+        <p>Остановка таймера.</p>
+    </div>
+    <div class="endpoint">
+        <h3><code>POST /timer/api?action=reset</code></h3>
+        <p>Сброс таймера.</p>
+    </div>
+    <div class="endpoint">
+        <h3><code>POST /timer/api?action=reset&minutes=5&seconds=30</code></h3>
+        <p>Сброс таймера на 5 минут 30 секунд.</p>
+    </div>
+    <div class="endpoint">
+        <h3><code>POST /timer/api?action=add15</code></h3>
+        <p>Добавить 15 секунд.</p>
+    </div>
+    <div class="endpoint">
+        <h3><code>POST /timer/api?action=subtract60</code></h3>
+        <p>Вычесть минуту.</p>
+    </div>
+</div>
+</body>
+</html>
+</html>
