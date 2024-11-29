@@ -1,48 +1,49 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Timer</title>
+    <title>Timer {{ timer_id }}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
 <div class="section">
-    <a href="/">Home</a>
+
+    <h1><a href="/" class="back-button">&#8592;</a>Timer {{ timer_id }}</h1>
 </div>
 
 <div class="section">
-    <div id="timer">00:00</div>
+    <div id="timer-{{ timer_id }}" class="timer">00:00</div> </div>
+
+<div class="section">
+    <button onclick="sendAction('{{ timer_id }}', 'start')">Forward</button>
+    <button onclick="sendAction('{{ timer_id }}', 'reverse')">Backward</button>
+    <button onclick="sendAction('{{ timer_id }}', 'pause')">Pause</button>
 </div>
 
 <div class="section">
-    <button onclick="sendAction('start')" id="startButton">Forward</button>
-    <button onclick="sendAction('reverse')" id="reverseButton">Backward</button>
-    <button onclick="sendAction('pause')">Pause</button>
+    <input type="number" id="minutes-{{ timer_id }}" value="0" min="0" max="60">
+    <input type="number" id="seconds-{{ timer_id }}" value="0" min="0" max="60">
+    <button onclick="resetWithValues('{{ timer_id }}')">Reset</button>
 </div>
 
 <div class="section">
-    <input type="number" id="minutes" value="0" min="0" max="60">
-    <input type="number" id="seconds" value="0" min="0" max="60">
-    <button onclick="resetWithValues()">Reset</button>
+    <button onclick="modifyTime('{{ timer_id }}', 'add', 30)">+30s</button>
+    <button onclick="modifyTime('{{ timer_id }}', 'subtract', 30)">-30s</button>
 </div>
 
 <div class="section">
-    <button onclick="modifyTime('add', 30)">+30s</button>
-    <button onclick="modifyTime('subtract', 30)">-30s</button>
+    <button onclick="modifyTime('{{ timer_id }}', 'add', 60)">+1m</button>
+    <button onclick="modifyTime('{{ timer_id }}', 'subtract', 60)">-1m</button>
 </div>
 
 <div class="section">
-    <button onclick="modifyTime('add', 60)">+1m</button>
-    <button onclick="modifyTime('subtract', 60)">-1m</button>
+    <button onclick="modifyTime('{{ timer_id }}', 'add', 300)">+5m</button>
+    <button onclick="modifyTime('{{ timer_id }}', 'subtract', 300)">-5m</button>
 </div>
 
-<div class="section">
-    <button onclick="modifyTime('add', 300)">+5m</button>
-    <button onclick="modifyTime('subtract', 300)">-5m</button>
-</div>
+<a href="/timer{{ timer_id }}_api_help" target="_blank">API Documentation</a>
 
-<a href="/timer_api_help" target="_blank">API Documentation</a>
-
+<script>const timerId = "{{ timer_id }}";</script>
 <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 
 </body>

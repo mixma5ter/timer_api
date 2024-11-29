@@ -40,11 +40,6 @@ button:active {
     transform: translateY(2px);
 }
 
-#timer {
-    font-size: 28px;
-    padding-top: 20px;
-}
-
 a {
     color: #fff;
     font-size: 18px;
@@ -53,6 +48,11 @@ a {
 
 a:hover {
     color: #a52424;
+}
+
+.timer {
+    font-size: 28px;
+    padding-top: 20px;
 }
 
 .section {
@@ -74,4 +74,15 @@ a:hover {
 
 .important {
     color: #dc3545;
+}
+
+.back-button {
+    display: inline-block;
+    padding: 10px;
+    font-size: 30px;
+    text-decoration: none;
+    color: white;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
 }

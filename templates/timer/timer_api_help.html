@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
     <title>Timer API Documentation</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
@@ -8,7 +8,7 @@
 <h1>Timer API</h1>
 
 <div class="section">
-    <h2>GET /timer/api</h2>
+    <h2>GET /timer{{ timer_id }}/api</h2>
     <p>Получает текущее состояние таймера. <span class="important">Этот запрос не меняет состояние таймера.</span></p>
     <h3>Response:</h3>
     <pre><code>{
@@ -18,7 +18,7 @@
 </div>
 
 <div class="section">
-    <h2>POST /timer/api</h2>
+    <h2>POST /timer{{ timer_id }}/api</h2>
     <p>Управляет таймером. Используйте параметры в query string. <span class="important"> Команды add и subtract работают только если таймер остановлен.</span>
     </p>
     <h3>Параметры:</h3>
@@ -40,27 +40,27 @@
     </div>
     <h3>Примеры:</h3>
     <div class="endpoint">
-        <h3><code>POST /timer/api?action=start</code></h3>
+        <h3><code>POST /timer{{ timer_id }}/api?action=start</code></h3>
         <p>Запуск таймера.</p>
     </div>
     <div class="endpoint">
-        <h3><code>POST /timer/api?action=pause</code></h3>
+        <h3><code>POST /timer{{ timer_id }}/api?action=pause</code></h3>
         <p>Остановка таймера.</p>
     </div>
     <div class="endpoint">
-        <h3><code>POST /timer/api?action=reset</code></h3>
+        <h3><code>POST /timer{{ timer_id }}/api?action=reset</code></h3>
         <p>Сброс таймера.</p>
     </div>
     <div class="endpoint">
-        <h3><code>POST /timer/api?action=reset&minutes=5&seconds=30</code></h3>
+        <h3><code>POST /timer{{ timer_id }}/api?action=reset&minutes=5&seconds=30</code></h3>
         <p>Сброс таймера на 5 минут 30 секунд.</p>
     </div>
     <div class="endpoint">
-        <h3><code>POST /timer/api?action=add15</code></h3>
+        <h3><code>POST /timer{{ timer_id }}/api?action=add15</code></h3>
         <p>Добавить 15 секунд.</p>
     </div>
     <div class="endpoint">
-        <h3><code>POST /timer/api?action=subtract60</code></h3>
+        <h3><code>POST /timer{{ timer_id }}/api?action=subtract60</code></h3>
         <p>Вычесть минуту.</p>
     </div>
 </div>

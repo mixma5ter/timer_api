@@ -1,38 +1,53 @@
-function sendAction(action) {
-    fetch('/timer/api?action=' + action, { method: 'POST' })
+function sendAction(timerId, action) {
+    fetch(`/timer${timerId}/api`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ action: action }),
+    })
         .then(response => response.json())
         .then(data => {
-            document.getElementById('timer').textContent = data.time;
+            document.getElementById(`timer-${timerId}`).textContent = data.time;
         });
 }
 
-function resetWithValues() {
-    let minutes = document.getElementById('minutes').value;
-    let seconds = document.getElementById('seconds').value;
-
-    // Проверка на корректность ввода. Ограничиваем от 0 до 60
-    minutes = Math.min(Math.max(0, minutes), 60);
-    seconds = Math.min(Math.max(0, seconds), 60);
-
-    fetch(`/timer/api?action=reset&minutes=${minutes}&seconds=${seconds}`, {method: 'POST'})
+function resetWithValues(timerId) {
+    const minutes = parseInt(document.getElementById(`minutes-${timerId}`).value, 10) || 0;
+    const seconds = parseInt(document.getElementById(`seconds-${timerId}`).value, 10) || 0;
+    fetch(`/timer${timerId}/api`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ action: 'reset', minutes: minutes, seconds: seconds }),
+    })
         .then(response => response.json())
         .then(data => {
-            document.getElementById('timer').textContent = data.time;
+            document.getElementById(`timer-${timerId}`).textContent = data.time;
         });
 }
 
-function modifyTime(operation, value) {
-    fetch(`/timer/api?action=${operation}${value}`, { method: 'POST' })
+function modifyTime(timerId, operation, value) {
+    fetch(`/timer${timerId}/api`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ action: operation, value: value }),
+    })
         .then(response => response.json())
         .then(data => {
-            document.getElementById('timer').textContent = data.time;
+            document.getElementById(`timer-${timerId}`).textContent = data.time;
         });
 }
 
-setInterval(() => {
-    fetch('/timer/api')
+function updateTimer(timerId) {
+    fetch(`/timer${timerId}/api`)
         .then(response => response.json())
         .then(data => {
-            document.getElementById('timer').textContent = data.time;
+            document.getElementById(`timer-${timerId}`).textContent = data.time;
         });
-}, 100);
+}
+
+setInterval(() => updateTimer(timerId), 100);
