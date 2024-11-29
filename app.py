@@ -42,12 +42,12 @@ def update_timer():
 
 @app.route('/', methods=['GET'])
 def index():
-    return render_template('index.html')
+    return render_template('timer/index.html')
 
 
 @app.route('/timer', methods=['GET'])
 def timer():
-    return render_template('timer.html')
+    return render_template('timer/timer.html')
 
 
 @app.route('/timer/api', methods=['GET', 'POST'])
