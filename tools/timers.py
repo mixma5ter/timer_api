@@ -6,17 +6,9 @@ from flask import request
 timer_lock = threading.RLock()
 timer_thread = None
 
-timers = {
-    1: {
-        'minutes': 0,
-        'seconds': 0,
-        'initial_time': 0,
-        'is_running': False,
-        'start_time': None,
-        'is_reversed': False,
-        "thread": None
-    },
-    2: {
+
+def create_timer():
+    return {
         'minutes': 0,
         'seconds': 0,
         'initial_time': 0,
@@ -25,7 +17,9 @@ timers = {
         'is_reversed': False,
         "thread": None
     }
-}
+
+
+timers = {i: create_timer() for i in range(1, 9)}
 
 
 def update_timer(timer_id):
